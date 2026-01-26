@@ -5,18 +5,18 @@ This repository contains code and data created in support of the project García
 
 ## **Data**
 
-The `Data` folder contains all the data required for running the analyses. Here are the files that need to be downloaded and stored in a specific location. The remaining files will be automatically generated:
-  
--	The code used to compute MIND networks is available at https://github.com/isebenius/MIND and corresponds to [MIND_long_01_MIND.py](Code/MIND_long_01_MIND.py).
-
-- The `sensorimotor-association_axis_ranking_DK.csv` file was derived from https://doi.org/10.1016/j.neuron.2021.06.016.
-
--	The `all_microsc_DesikanKilliany68.csv` file is available at https://github.com/netneurolab/netneurotools.
+- The `brain maps` folder contains the hierarchical and schizophrenia epicenter maps employed in this study.
+  - The `sensorimotor-association (S-A) regional ranking` file was derived from https://doi.org/10.1016/j.neuron.2021.06.016.
+  - The map of `evolutionary expansion`, which represents the ratio of the surface area in humans to that of macaque, was derived from https://www.pnas.org/doi/full/10.1073/pnas.1001229107.
+  - The `functional gradient` corresponds to the first gradient of functional connectivity derived from diffusion map embedding and was obtained from https://www.pnas.org/doi/10.1073/pnas.1608282113.
+  - The `functional and structural epicenters in SCZ`, were obtained from an ENIGMA study available at https://www.nature.com/articles/s41380-024-02442-7.
 
 
 ## **Code**
 
 The `Code` folder contains all the code required for running the analyses and generate data and figures. All scripts are designed to be sequentially executed. Don't forget to change the location variable regularly. 
+
+-	The code used to compute MIND networks is available at https://github.com/isebenius/MIND and corresponds to [MIND_long_01_MIND.py](Code/MIND_long_01_MIND.py).
 
 -	[MIND_long_01_MIND.py](Code/MIND_01_MIND.py) – computes MIND networks from FreeSurfer directory (by default stored in the surf/ folder). It returns a .csv file for each individual.
   
