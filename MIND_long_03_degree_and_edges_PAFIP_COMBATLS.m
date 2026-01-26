@@ -4,7 +4,7 @@
 
 % Written by Natalia García San Martín (ngarcia1@us.es)
 
-% This file is part of Hierarchy MIND Psychosis toolkit.
+% This file is part of Hierarchy Longitudinal Gradients Psychosis toolkit.
 %
 % Hierarchy Longitudinal Gradients Psychosis toolkit is free software: 
 % you can redistribute it and/or modify it under the terms of the 
@@ -351,4 +351,5 @@ legend({'Male','Female'})
 title('FEP')
 ylabel(['eTIV ',type])
 [h,p] = ttest2(etiv_FEP{covariates_long_FEP.Sex==0,:},etiv_FEP{covariates_long_FEP.Sex==1,:});
+
 
