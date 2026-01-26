@@ -23,20 +23,21 @@ The `Code` folder contains all the code required for running the analyses and ge
 
 -	[MIND_long_01_MIND.py](Code/MIND_01_MIND.py) – computes MIND networks from FreeSurfer directory (by default stored in the surf/ folder). It returns a .csv file for each individual.
   
--	[MIND_long_02_COMBATLS.R](Code/MIND_long_02_COMBATLS.R) - 
+-	[MIND_long_02_COMBATLS.R](Code/MIND_long_02_COMBATLS.R) - applies the COMBATLS harmonization method to MIND networks.
   
--	[MIND_long_03_degree_and_edges_PAFIP_COMBATLS.m](Code/MIND_long_03_degree_and_edges_PAFIP_COMBATLS.m) – calculates for each HC and FEP individual the edges and degrees from MIND networks.
-  
--	[MIND_03_brain_mapping.R](Code/MIND_03_brain_mapping.R) –
-  
--	[MIND_long_04_gradients.m](Code/MIND_long_04_gradients.m) – 
+-	[MIND_long_03_degree_and_edges_PAFIP_COMBATLS.m](Code/MIND_long_03_degree_and_edges_PAFIP_COMBATLS.m) – calculates the MIND degrees for each HC and SSD individual.
+    
+-	[MIND_long_04_gradients.m](Code/MIND_long_04_gradients.m) – calculates the MIND gradients for each HC and SSD individual, and generates brain maps of cortical and subcrotical degrees, as well as cortical gradients.
 
--	[MIND_long_05_hierarchy_SCZ_brain_maps.m](Code/MIND_long_05_hierarchy_SCZ_brain_maps.m) – generates the brain maps of cortical hierarchy and SCZ epicenters, and their correlation with MIND associations.
+- [MIND_long_05_longitudinal_dx_MIND.m](Code/MIND_long_05_longitudinal_dx_MIND.m)
 
--	[MIND_long_06_cortical_MIND_association_maps.m](Code/MIND_long_06_cortical_MIND_association_maps.m) – generates the regional brain maps of cortical MIND associations.
+- [MIND_long_06_longitudinal_BPRS_MIND.m](Code/MIND_long_05_longitudinal_BPRS_MIND.m)
 
+-	[MIND_long_07_hierarchy_SCZ_brain_maps.m](Code/MIND_long_07_hierarchy_SCZ_brain_maps.m) – generates the brain maps of cortical hierarchy and SCZ epicenters, and their correlation with MIND associations.
 
--	[MIND_long_07_subcortical_MIND_association_maps.m](Code/MIND_long_07_subcortical_MIND_association_maps.m) – generates the regional brain maps of subcortical MIND associations.
+-	[MIND_long_08_cortical_MIND_association_maps.m](Code/MIND_long_08_cortical_MIND_association_maps.m) – generates the regional brain maps of cortical MIND associations.
+
+-	[MIND_long_09_subcortical_MIND_association_maps.m](Code/MIND_long_09_subcortical_MIND_association_maps.m) – generates the regional brain maps of subcortical MIND associations.
 
 
 ```matlab
