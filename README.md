@@ -34,9 +34,9 @@ gm_ref = GradientMaps('approach', 'dm', 'kernel', 'normalized_angle');
 
 ```
 
-- [MIND_long_05_longitudinal_dx_MIND.m](Code/MIND_long_05_longitudinal_dx_MIND.m)
+- [MIND_long_05_longitudinal_dx_MIND.m](Code/MIND_long_05_longitudinal_dx_MIND.m) - performs multiple regression and linear mixed modeling (LMM) on MIND networks.
 
-- [MIND_long_06_longitudinal_BPRS_MIND.m](Code/MIND_long_05_longitudinal_BPRS_MIND.m)
+- [MIND_long_06_longitudinal_BPRS_MIND.m](Code/MIND_long_05_longitudinal_BPRS_MIND.m) - performs generalized linear modeling (GLM) and generalized LMM (GLMM) on MIND networks and psychiatric symptoms. 
 
 -	[MIND_long_07_hierarchy_SCZ_brain_maps.m](Code/MIND_long_07_hierarchy_SCZ_brain_maps.m) – generates the brain maps of cortical hierarchy and SCZ epicenters, and their correlation (co-localization) with MIND associations.
 
