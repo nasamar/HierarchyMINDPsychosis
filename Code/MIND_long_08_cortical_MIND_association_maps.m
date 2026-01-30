@@ -42,16 +42,16 @@ names_DK = cellfun(@(x, y, z) strcat(x,'_',y,'_', z), names_DK{:,1},names_DK{:,2
 [~,idx_to_ENIGMA] = ismember(names_DK,degree_68_FEP.Properties.VariableNames);
 
 % Interpolation results
-% for gradient = {'','_G2'}
+% for gradient = {'_G1','_G2'}
 for gradient = {'','_G1','_G2'}
     if strcmp(gradient,'')
         var = 'degrees';
     else
         var = 'gradients';
     end
-    % for period = {''}
-    for period = {'_baseline',''}
-        % for cognition = {''}
+    for period = {'_baseline'}
+    % for period = {'_baseline',''}
+        % for cognition = {'_BPRS'}
         for cognition = {'','_BPRS'}
 
             variable = [gradient{:},period{:},cognition{:}];
@@ -59,23 +59,26 @@ for gradient = {'','_G1','_G2'}
             if ~contains(variable,{'BPRS'}) 
                 if contains(variable,'baseline')
                     x_vars = {'dx1'};
-                    % x_vars = {'Age_inclusion','Sex1','eTIV','mean_euler'};
+                    x_vars = {'Age_inclusion','Sex1','eTIV','mean_euler'};
                     
                 else
                     x_vars = {'dx1','Treatment_Time','dx1_Treatment_Time','CPZ_equivalent','CPZ_equivalent_Treatment_Time'};
                     % x_vars = {'Treatment_Time','CPZ_equivalent','CPZ_equivalent_Treatment_Time'}; % FEP
                     % x_vars = {'Treatment_Time'}; % CN
-                    % x_vars = {'Age_inclusion','Sex1','eTIV','mean_euler','protocol_Change15'};
+                    x_vars = {'Age_inclusion','Sex1','eTIV','mean_euler','protocol_Change15'};
 
                 end
             
             elseif contains(variable,'baseline') 
                 x_vars = {['global_',var]};
+                x_vars = {'Age_inclusion','Sex1','eTIV','mean_euler'};
 
             else
                 x_vars = {['',var],'Treatment_Time',[var,'_Treatment_Time'],'CPZ_equivalent','CPZ_equivalent_Treatment_Time'};
+                x_vars = {'Age_inclusion','Sex1','eTIV','mean_euler'};
 
             end
+
 
             if strcmp(var,'degrees')
                 opts = detectImportOptions([location,'Code\MATLAB\Connectivity\Longitudinal\degrees\',parcellation,'\InterpolationResults_',var,variable,'.csv'],'ReadVariableNames',true);
@@ -90,24 +93,32 @@ for gradient = {'','_G1','_G2'}
                 % Interpolation_Results = readtable([location,'Code\MATLAB\Connectivity\Longitudinal\gradients_normalized\',parcellation,'\COMBATLS_covars',normalization,'\',residual_or_raw,'\InterpolationResults_',var,variable,'_FEP.csv'],opts);
             end
 
+            Interpolation_Results_degrees = readtable([location,'Code\MATLAB\Connectivity\Longitudinal\degrees\',parcellation,'\InterpolationResults_degrees',period{:},cognition{:},'.csv'],opts);
+            Interpolation_Results_gradients_G1 = readtable([location,'Code\MATLAB\Connectivity\Longitudinal\gradients_normalized\',parcellation,'\COMBATLS_covars',normalization,'\',residual_or_raw,'\InterpolationResults_gradients_G1',period{:},cognition{:},'.csv'],opts);
+            Interpolation_Results_gradients_G2 = readtable([location,'Code\MATLAB\Connectivity\Longitudinal\gradients_normalized\',parcellation,'\COMBATLS_covars',normalization,'\',residual_or_raw,'\InterpolationResults_gradients_G2',period{:},cognition{:},'.csv'],opts);
+
             % poolobj = gcp('nocreate');
             % delete(poolobj);
             % parpool(length(x_vars))
 
+            lim_max_degrees = max(max(Interpolation_Results_degrees{:,cellfun(@(x) ['res_complete_' x], replace(x_vars,var,'degrees'), 'UniformOutput', false)}));
+            lim_min_degrees = min(min(Interpolation_Results_degrees{:,cellfun(@(x) ['res_complete_' x], replace(x_vars,var,'degrees'), 'UniformOutput', false)}));
+            lim_max_G1 = max(max(Interpolation_Results_gradients_G1{:,cellfun(@(x) ['res_complete_' x], replace(x_vars,var,'gradients'), 'UniformOutput', false)}));
+            lim_min_G1 = min(min(Interpolation_Results_gradients_G1{:,cellfun(@(x) ['res_complete_' x], replace(x_vars,var,'gradients'), 'UniformOutput', false)}));
+            lim_max_G2 = max(max(Interpolation_Results_gradients_G2{:,cellfun(@(x) ['res_complete_' x], replace(x_vars,var,'gradients'), 'UniformOutput', false)}));
+            lim_min_G2 = min(min(Interpolation_Results_gradients_G2{:,cellfun(@(x) ['res_complete_' x], replace(x_vars,var,'gradients'), 'UniformOutput', false)}));
 
-            lim_max = max(max(Interpolation_Results{:,cellfun(@(x) ['res_complete_' x], x_vars, 'UniformOutput', false)}));
-            lim_min = min(min(Interpolation_Results{:,cellfun(@(x) ['res_complete_' x], x_vars, 'UniformOutput', false)}));
-            % lim_max = 10.13;
-            % lim_min = -8.6;
-
-            if strcmp(period,'_baseline') 
-                if ~contains(cognition,{'_BPRS'})
-                    lim_max = 4;
-                    lim_min = -4.1;
-                else
-                    lim_max = 5.14;
-                    lim_min = -6.06;
-                end
+            if strcmp(period,'_baseline') | contains(cognition,{'_BPRS'})
+                
+                lim_min = min([lim_min_degrees,lim_min_G1,lim_min_G2]);
+                lim_max = max([lim_max_degrees,lim_max_G1,lim_max_G2]);
+                
+            elseif contains(var,{'degrees'})
+                    lim_max = lim_max_degrees;
+                    lim_min = lim_min_degrees;
+            else
+                    lim_max = max([lim_max_G1,lim_max_G2]);
+                    lim_min = min([lim_min_G1,lim_min_G2]);            
             end
 
             
@@ -122,14 +133,14 @@ for gradient = {'','_G1','_G2'}
                 % if contains(variable,'baseline') 
                 % if contains(x_var{:},var) 
                     % % figure('Position', [488   242   560  400])
-                    % plot_cortical( ...
-                    %     [parcel_to_surface(Interpolation_Results{idx_to_ENIGMA,['res_complete_',x_var{:}]}, [parcellation,'_',fsa]);parcel_to_surface(Interpolation_Results{idx_to_ENIGMA,['res_',x_var{:}]}, [parcellation,'_',fsa])], ...
-                    %     'parcellation',parcellation, ...
-                    %     'surface_name', fsa, ...
-                    %     'color_range',[lim_min lim_max], ...
-                    %     'label_text',['InterpolationResults_',var,variable,x_var{:}], ...
-                    %     'position_colorbar','East')
-                    % colorbar_white_centered([lim_min lim_max])
+                    plot_cortical( ...
+                        [parcel_to_surface(Interpolation_Results{idx_to_ENIGMA,['res_complete_',x_var{:}]}, [parcellation,'_',fsa]);parcel_to_surface(Interpolation_Results{idx_to_ENIGMA,['res_',x_var{:}]}, [parcellation,'_',fsa])], ...
+                        'parcellation',parcellation, ...
+                        'surface_name', fsa, ...
+                        'color_range',[lim_min lim_max], ...
+                        'label_text',['InterpolationResults_',var,variable,x_var{:}], ...
+                        'position_colorbar','East')
+                    colorbar_white_centered([lim_min lim_max])
 
                     % plot_cortical( ...
                     %     parcel_to_surface(Interpolation_Results{idx_to_ENIGMA,['res_',x_var{:}]}, [parcellation,'_',fsa]), ...
@@ -158,4 +169,3 @@ for gradient = {'','_G1','_G2'}
         end
     end
 end
-
